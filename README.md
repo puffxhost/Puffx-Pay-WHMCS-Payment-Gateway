@@ -102,7 +102,7 @@ Use Route `1`, `2`, or `3` depending on your desired payout speed or backend rou
 Need help or have questions?
 
 📧 Email: [support@puffxhost.in](mailto:support@puffxhost.in)  
-🌐 Website: [https://puffx.in/support](https://puffxhost.com/contact)  
+🌐 Website: [https://puffxhost.com/contact](https://puffxhost.com/contact)  
 📞 WhatsApp: [Click Here](https://wa.me/918602967573)
 
 ---
