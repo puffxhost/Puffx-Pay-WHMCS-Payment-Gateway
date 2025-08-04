@@ -127,7 +127,7 @@ See the [LICENSE.txt](LICENSE.txt) file for full license text.
 ## 🙌 Credits
 
 Developed and maintained by **Puffx Technologies**  
-Visit: [https://puffx.in](https://puffxhost.com)
+Visit: [https://puffxhost.com](https://puffxhost.com)
 
 
 Unzip the downloaded file and upload the contents to your WHMCS installation directory:
