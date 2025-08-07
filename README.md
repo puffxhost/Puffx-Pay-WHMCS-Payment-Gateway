@@ -132,3 +132,8 @@ Visit: [https://puffxhost.com](https://puffxhost.com)
 
 Unzip the downloaded file and upload the contents to your WHMCS installation directory:
 
+<hr>
+<p align="center">
+  Developed with ❤️ by <strong>Nitin Mehta</strong>
+</p>
+
