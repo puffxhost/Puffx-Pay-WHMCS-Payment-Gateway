@@ -44,26 +44,25 @@ HTML;
             'Size' => '64',
         ],
         'route' => [
-            'FriendlyName' => 'Route (1 = UPI, 2 = Wallet, 3 = NetBanking)',
+            'FriendlyName' => 'Route',
             'Type' => 'dropdown',
-            'Options' => '1,2,3',
+            'Options' => '1,2,3,4',
             'Default' => '1',
         ],
         'webhook_info' => [
             'FriendlyName' => 'Webhook URL',
-            'Type' => 'text',
             'Default' => '',
             'Description' => $webhookHtml,
         ],
     ];
 }
 
-// 2. Module Metadata (shows in WHMCS admin)
+// 2. Module Metadata
 function puffxpay_meta()
 {
     return [
         'DisplayName' => 'Puffx Pay',
-        'APIVersion' => '1.1', // Required for callback support
+        'APIVersion' => '1.1',
         'GatewayType' => 'Invoice',
         'Description' => 'Puffx Pay gateway integration for WHMCS. Accept payments via UPI, Wallet, and NetBanking.',
         'SupportEmail' => 'support@puffxpay.site',
@@ -96,45 +95,52 @@ function puffxpay_link($params)
         'customer_mobile' => $client['phonenumber'],
         'remark1' => "Invoice: $invoiceId",
         'remark2' => $client['email'],
-        'route' => $route
+        'route' => $route  // 👉 agar number kaam na kare to 'upi', 'wallet', 'netbanking' string try karna
     ];
 
     $ch = curl_init("https://pay.x-server.in/api/create-order");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postfields));
     $response = curl_exec($ch);
+
+    // Curl error logging
+    if (curl_errno($ch)) {
+        $error = curl_error($ch);
+        file_put_contents(__DIR__ . '/debug_log.txt', date('Y-m-d H:i:s') . " => CURL ERROR: " . $error . "\n", FILE_APPEND);
+    }
+
     curl_close($ch);
 
-    $result = json_decode($response, true);
+    // Save raw response in log
+    file_put_contents(__DIR__ . '/debug_log.txt', date('Y-m-d H:i:s') . " => RESPONSE: " . $response . "\n", FILE_APPEND);
 
-    // Optional: Log for debugging
-    // file_put_contents(__DIR__ . '/debug_log.txt', date('Y-m-d H:i:s') . " => " . print_r($result, true) . "\n", FILE_APPEND);
+    $result = json_decode($response, true);
 
     if (isset($result['status']) && $result['status'] === true && isset($result['result']['payment_url'])) {
         $payment_url = $result['result']['payment_url'];
         return "<div style='text-align:center;margin-top:20px;'>
                     <a href='$payment_url' target='_blank' style='
                        display:block;
-        background-color:#d6e4ff;
-        color:#1062fe;
-        padding:14px 0;
-        border-radius:3px;
-        font-size:15px;
-        font-weight:500;
-        width:100%;
-        max-width:100%;
-        text-align:center;
-        text-decoration:none;
-        margin:20px auto;
-        transition:background-color 0.3s ease;
-    ' onmouseover=\"this.style.backgroundColor='#d6e4ff'\"
-       onmouseout=\"this.style.backgroundColor='#d6e4ff'\">
-        Pay with QR UPI
-    </a>
+                       background-color:#d6e4ff;
+                       color:#1062fe;
+                       padding:14px 0;
+                       border-radius:3px;
+                       font-size:15px;
+                       font-weight:500;
+                       width:100%;
+                       max-width:100%;
+                       text-align:center;
+                       text-decoration:none;
+                       margin:20px auto;
+                       transition:background-color 0.3s ease;
+                    '>
+                        Pay with Puffx Pay
+                    </a>
                 </div>";
     } else {
+        $errorMsg = isset($result['message']) ? $result['message'] : "Unable to create payment link. Response empty or invalid.";
         return "<div style='background:#ffe6e6;padding:15px;border-radius:6px;color:#b30000;font-weight:600;text-align:center;margin-top:20px;'>
-                    ❌ Unable to create payment link. Please contact support.
+                    ❌ $errorMsg <br><small>Check debug_log.txt for details.</small>
                 </div>";
     }
 }
