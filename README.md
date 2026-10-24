@@ -31,7 +31,6 @@ Download the latest release of `puffxpay.zip` from:
 /modules/gateways/puffxpay.php
 /modules/gateways/callback/puffxpay.php
 
-
 > ⚠️ If `/callback/` folder doesn't exist, create it manually.
 
 ---
@@ -129,7 +128,6 @@ See the [LICENSE.txt](LICENSE.txt) file for full license text.
 Developed and maintained by **Puffx Technologies**  
 Visit: [https://puffxhost.com](https://puffxhost.com)
 
-
 Unzip the downloaded file and upload the contents to your WHMCS installation directory:
 
 <hr>
@@ -145,10 +143,6 @@ Need help or want to report an issue?
 - 📧 Email: [support@puffxhost.in](mailto:support@puffxhost.in)
 - 📞 Call: [+91 8602967573](https://wa.me/918602967573)
 - 💬 WhatsApp: [+91 7354336624](https://wa.me/917354336624)
-
-## 📜 License
-
-This project’s app code is licensed under the MIT License. See the [LICENSE](LICENSE) file for full details. Model weights have separate license terms; see the model license section above.
 
 ## 🙌 Contributing
 
